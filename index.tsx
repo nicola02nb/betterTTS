@@ -16,7 +16,10 @@ import settings from "./settings";
 export default definePlugin({
     name: "BetterTTS",
     description: "A plugin that allows you to play a custom TTS when a message is received.",
-    authors: [Devs.nicola02nb],
+    authors: [{
+        name: "nicola02nb",
+        id: 257900031351193600n
+    }],
     settings,
     contextMenus: {
         "user-context": PatchUserContextMenu,
