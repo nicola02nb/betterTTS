@@ -125,6 +125,8 @@ export default new class TikTokTTS extends AbstractTTSSource<HTMLAudioElement> {
                     audio.src = `data:audio/mpeg;base64,${data.data}`;
                     audio.addEventListener("loadeddata", () => resolve(audio));
                     audio.addEventListener("error", () => reject(new Error("Failed to load audio")));
+                }).catch(error => {
+                    reject(error);
                 });
             } catch (error) {
                 reject(new Error("Failed to load audio"));

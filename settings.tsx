@@ -6,14 +6,17 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { SettingsSection } from "@components/settings/tabs/plugins/components/Common";
-import { IPluginOptionComponentProps, OptionType, PluginSettingComponentDef } from "@utils/types";
+import { IPluginOptionComponentProps, OptionType } from "@utils/types";
 import { findByCodeLazy } from "@webpack";
-import { Button, Flex, Select, Text, TextInput } from "webpack/common/components";
+import { Select, TextInput } from "webpack/common/components";
 import { useEffect, useState } from "webpack/common/react";
 
 import * as betterTTS from "./index";
 import AudioPlayer, { getDefaultVoice, getVoices, sourcesOptions } from "./libraries/AudioPlayer";
 import { ChannelStore, GuildStore, UserSettingsProtoStore, UserStore } from "./stores";
+import { Flex } from "@components/Flex";
+import { Button } from "@components/Button";
+import { BaseText } from "@components/BaseText";
 
 const settings = definePluginSettings({
     enableTts: {
@@ -259,7 +262,7 @@ function DropdownSourceAndVoices({ }) {
 
     return (
         <SettingsSection description="Select the TTS source and voice you want to use." name="TTS Source and Voice" error={null}>
-            <Flex direction={Flex.Direction.HORIZONTAL} justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
+            <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
                 <Select
                     options={optionsSources}
                     placeholder="Select TTS Source"
@@ -287,9 +290,10 @@ function DropdownSourceAndVoices({ }) {
     );
 }
 
-function DropdownButtonGroup({ setValue, option }: IPluginOptionComponentProps & { option: PluginSettingComponentDef; }) {
+function DropdownButtonGroup(props: IPluginOptionComponentProps) {
     const [selectedOption, setSelectedOption] = useState("");
-    const { id } = option.componentProps;
+    // @ts-ignore
+    const { id } = props.option.componentProps;
 
     const [options, setOptions] = useState<string[]>(settings.store[id] || []);
 
@@ -302,7 +306,8 @@ function DropdownButtonGroup({ setValue, option }: IPluginOptionComponentProps &
                 serialize={value => String(value)}
                 options={[
                     ...options.map((opt, index) => {
-                        const obj = option.componentProps.getNameFunction(opt);
+                        // @ts-ignore
+                        const obj = props.option.componentProps.getNameFunction(opt);
                         const name = obj?.name ?? obj?.username;
                         return { label: name, value: opt };
                     })
@@ -335,18 +340,18 @@ function PreviewTTS() {
     const getLabel = (play: boolean) => {
         if (play) {
             return (
-                <Flex direction={Flex.Direction.HORIZONTAL} align={Flex.Align.CENTER}>
+                <Flex flexDirection="row" alignItems="center">
                     <IconPause />
-                    <Text>
+                    <BaseText>
                         Preview
-                    </Text>
+                    </BaseText>
                 </Flex>
             );
         } else {
             return (
-                <Flex direction={Flex.Direction.HORIZONTAL} align={Flex.Align.CENTER}>
+                <Flex flexDirection="row" alignItems="center">
                     <IconPlay />
-                    <Text>Preview</Text>
+                    <BaseText>Preview</BaseText>
                 </Flex>
             );
         }
@@ -394,7 +399,7 @@ function TextReplaceDropdown({ }) {
 
     return (
         <SettingsSection description="Manage text replacement rules." name="Text Replacement" error={null}>
-            <Flex Direction="HORIZONTAL" justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
+            <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
                 <Select
                     placeholder="Regex List"
                     options={[
@@ -425,7 +430,7 @@ function TextReplaceAdd({ onAdd }) {
     const disabled = regex === "" || replacement === "";
 
     return (
-        <Flex direction={Flex.Direction.HORIZONTAL} justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
+        <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
             <TextInput
                 value={regex}
                 placeholder="Enter Regex"

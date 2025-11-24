@@ -150,10 +150,15 @@ export default new class AudioPlayer {
 
     playAudio() {
         if (this.media instanceof HTMLAudioElement) {
-            this.media.playbackRate = this.rate;
-            this.media.volume = clamp(this.volume, 0, 1);
-            this.media.addEventListener("ended", () => this.playNextTTS());
-            this.media.play();
+            try {
+                this.media.playbackRate = this.rate;
+                this.media.volume = clamp(this.volume, 0, 1);
+                this.media.addEventListener("ended", () => this.playNextTTS());
+                this.media.play();
+            } catch (error) {
+                console.error("Error playing audio:", error);
+                this.playNextTTS();
+            }
         } else if (this.media instanceof SpeechSynthesisUtterance) {
             this.media.rate = this.rate;
             this.media.volume = clamp(this.volume, 0, 1);
