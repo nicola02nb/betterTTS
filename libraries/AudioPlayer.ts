@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { default as DiscordTTS } from "../Sources/Discord";
-import { default as StreamElementsTTS } from "../Sources/Streamelements";
-import { default as TikTokTTS } from "../Sources/TikTok";
+import { discordTTS } from "../Sources/Discord";
+import { streamElementsTTS } from "../Sources/Streamelements";
+import { tikTokTTS } from "../Sources/TikTok";
 import { TTSSource, TTSSourceInterface, TTSVoice, TTSVoiceOption } from "../types/ttssource";
 
 function clamp(number: number, min: number, max: number) {
@@ -22,11 +22,11 @@ export const sourcesOptions = [
 function getSource(source: TTSSource): TTSSourceInterface<any> | undefined {
     switch (source) {
         case "discord":
-            return DiscordTTS;
+            return discordTTS;
         case "streamelements":
-            return StreamElementsTTS;
+            return streamElementsTTS;
         case "tiktok":
-            return TikTokTTS;
+            return tikTokTTS;
         default:
             return undefined;
     }
@@ -42,16 +42,10 @@ export function getDefaultVoice(source: TTSSource): string {
     return sourceInterface ? sourceInterface.getDefaultVoice() : "";
 }
 
-export const nameToInterface: Record<string, TTSSourceInterface<any>> = {
-    "discord": DiscordTTS,
-    "streamelements": StreamElementsTTS,
-    "tiktok": TikTokTTS
-};
-
 export default new class AudioPlayer {
     usersCache: Map<string, HTMLAudioElement> = new Map();
 
-    sourceInterface: TTSSourceInterface<any> = DiscordTTS;
+    sourceInterface: TTSSourceInterface<any> = discordTTS;
 
     previewMessages: string[] = [];
     userAnnouncements: string[] = [];
@@ -75,7 +69,7 @@ export default new class AudioPlayer {
     }
 
     updateTTSSourceAndVoice(source: TTSSource, voice: TTSVoice) {
-        this.sourceInterface = nameToInterface[source];
+        this.sourceInterface = getSource(source) || discordTTS;
         if (!voice) {
             voice = this.sourceInterface.getDefaultVoice();
         }
