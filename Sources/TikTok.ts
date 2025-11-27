@@ -7,6 +7,8 @@
 import { AbstractTTSSource } from "./AbstractSource";
 
 export const tikTokTTS = new class TikTokTTS extends AbstractTTSSource<HTMLAudioElement> {
+    sourceOption = { label: "TikTok", value: "tiktok" };
+
     getDefaultVoice() {
         return "en_us_001";
     }

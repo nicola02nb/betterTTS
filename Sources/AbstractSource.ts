@@ -7,6 +7,8 @@
 import { TTSSourceInterface, TTSVoice, TTSVoiceOption } from "../types/ttssource";
 
 export abstract class AbstractTTSSource<T extends HTMLAudioElement | SpeechSynthesisUtterance> implements TTSSourceInterface<T> {
+    sourceOption: { label: string; value: string; } = { label: "Abstract", value: "abstract" };
+
     constructor() {
         const retrive = async () => {
             console.log("Retrieving voices...");

@@ -7,6 +7,7 @@
 import { AbstractTTSSource } from "./AbstractSource";
 
 export const discordTTS = new class DiscordTTS extends AbstractTTSSource<SpeechSynthesisUtterance> {
+    sourceOption = { label: "Discord", value: "discord" };
 
     getDefaultVoice() {
         return speechSynthesis.getVoices()[0].voiceURI;

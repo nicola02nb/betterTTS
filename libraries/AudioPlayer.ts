@@ -14,9 +14,9 @@ function clamp(number: number, min: number, max: number) {
 }
 
 export const sourcesOptions = [
-    { label: "Discord", value: "discord" },
-    { label: "StreamElements", value: "streamelements" },
-    { label: "TikTok", value: "tiktok" }
+    discordTTS.sourceOption,
+    streamElementsTTS.sourceOption,
+    tikTokTTS.sourceOption
 ];
 
 function getSource(source: TTSSource): TTSSourceInterface<any> | undefined {

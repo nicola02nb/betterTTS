@@ -16,6 +16,8 @@ type StreamElementsVoice = {
 };
 
 export const streamElementsTTS = new class StreamElementsTTS extends AbstractTTSSource<HTMLAudioElement> {
+    sourceOption = { label: "StreamElements", value: "streamelements" };
+
     getDefaultVoice() {
         return "Brian";
     }
