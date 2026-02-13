@@ -148,6 +148,12 @@ const settings = definePluginSettings({
     ttsVoice: {
         type: OptionType.CUSTOM
     },
+    streamelementsApiKey: {
+        type: OptionType.STRING,
+        default: "",
+        description: "Your StreamElements API Key. Required only if you use StreamElements as TTS source. You can get it from https://streamelements.com/dashboard/account/channels (Overlay Token).",
+        placeholder: "StreamElements API Key",
+    },
     mutedUsers: {
         type: OptionType.COMPONENT,
         component: DropdownButtonGroup,

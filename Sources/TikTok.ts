@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { error } from "console";
 import { AbstractTTSSource } from "./AbstractSource";
 
 export const tikTokTTS = new class TikTokTTS extends AbstractTTSSource<HTMLAudioElement> {
@@ -126,12 +127,14 @@ export const tikTokTTS = new class TikTokTTS extends AbstractTTSSource<HTMLAudio
                     const audio = new Audio();
                     audio.src = `data:audio/mpeg;base64,${data.data}`;
                     audio.addEventListener("loadeddata", () => resolve(audio));
-                    audio.addEventListener("error", () => reject(new Error("Failed to load audio")));
+                    audio.addEventListener("error", (error) => { console.error("Failed to load audio:", error); reject(error); });
                 }).catch(error => {
+                    console.error("Failed to load audio:", error);
                     reject(error);
                 });
             } catch (error) {
-                reject(new Error("Failed to load audio"));
+                console.error("Failed to load audio:", error);
+                reject(error);
             }
         });
     }

@@ -22,6 +22,7 @@ export default definePlugin({
     settings,
     contextMenus: {
         "user-context": PatchUserContextMenu,
+        "gdm-context": PatchUserContextMenu,
         "channel-context": PatchChannelContextMenu,
         "guild-context": PatchGuildContextMenu,
         "guild-header-popout": PatchGuildContextMenu

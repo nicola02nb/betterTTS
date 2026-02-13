@@ -3,7 +3,7 @@
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
+import settings from "../settings";
 import { AbstractTTSSource } from "./AbstractSource";
 
 type StreamElementsVoice = {
@@ -45,10 +45,13 @@ export const streamElementsTTS = new class StreamElementsTTS extends AbstractTTS
     async getMedia(text: string) {
         return new Promise<HTMLAudioElement>((resolve, reject) => {
             text = encodeURIComponent(text);
-            const url = `https://api.streamelements.com/kappa/v2/speech?voice=${this.selectedVoice}&text=${text}`;
+            const url = `https://api.streamelements.com/kappa/v2/speech?voice=${this.selectedVoice}&text=${text}&key=${settings.store.streamelementsApiKey}`;
             const audio = new Audio(url);
             audio.addEventListener("loadeddata", () => resolve(audio));
-            audio.addEventListener("error", () => reject(new Error("Failed to load audio")));
+            audio.addEventListener("error", (error) => {
+                console.error("Failed to load audio:", error);
+                reject(error);
+            });
         });
     }
 };
